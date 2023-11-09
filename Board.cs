@@ -10,6 +10,7 @@ namespace megaTicTacToeSolver
     {
         private string[] output = new string[3] { "X", "O", " "};
         public uint[,] data = new uint[4, 4];
+        public uint move = (uint)Move.X;
         public Board()
         {
             Random random = new Random();
@@ -71,6 +72,10 @@ namespace megaTicTacToeSolver
             }
             return new Board(data);
         }
+    }
+    enum Move{
+        X = 0,
+        O = 1,
     }
     enum Piece
     {

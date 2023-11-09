@@ -1,53 +1,104 @@
 using System;
+using System.Collections.ObjectModel;
 
 namespace megaTicTacToeSolver
 {
     class Solver{
+        static Board start = new Board(new uint[4,4]{{0,1,0,1},{2,2,2,2},{2,2,2,2},{1,0,1,0}});
+        TreeNode<Board> root = new TreeNode<Board>(start);
+        public void PossibleMoves(TreeNode<Board> board){
+            for (int y = 0; y<board.Value.data.GetLength(0); y++){
+                for (int x = 0; x<board.Value.data.GetLength(1); x++){
+                    if (board.Value.data[x,y] == board.Value.move){
+                        if ((x+1)<board.Value.data.GetLength(0) & (board.Value.data[x+1,y]==(uint)Piece.None)) {
+                            Board tempBoard = board.Value;
+                            tempBoard.data[x,y] = (uint)Piece.None;
+                            tempBoard.data[x+1,y] = tempBoard.move;
+                            if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            Console.WriteLine("Found +x Move");
+                            tempBoard.PrintBoard();
+                            board.AddChild(tempBoard);
+                        }
+                        if ((x-1)>0 & (board.Value.data[x-1,y]==(uint)Piece.None)) {
+                            Board tempBoard = board.Value;
+                            tempBoard.data[x,y] = (uint)Piece.None;
+                            tempBoard.data[x-1,y] = tempBoard.move;
+                            if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            board.AddChild(tempBoard);
+                        }
+                        if ((y+1)<board.Value.data.GetLength(1) & (board.Value.data[x,y+1]==(uint)Piece.None)) {
+                            Board tempBoard = board.Value;
+                            tempBoard.data[x,y] = (uint)Piece.None;
+                            tempBoard.data[x,y+1] = tempBoard.move;
+                            if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            board.AddChild(tempBoard);
+                        }
+                        if ((y-1)>0 & (board.Value.data[x,y-1]==(uint)Piece.None)) {
+                            Board tempBoard = board.Value;
+                            tempBoard.data[x,y] = (uint)Piece.None;
+                            tempBoard.data[x,y+1] = tempBoard.move;
+                            if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            board.AddChild(tempBoard);
+                        }
+                    }
+                }
+            }  
+        }
+        public void CheckWin(){
 
+        } 
     }
-
-    class TreeNode : IEnumerable<TreeNode>
+    public class TreeNode<T>
     {
-        private readonly Dictionary<string, TreeNode> _children =
-                                            new Dictionary<string, TreeNode>();
+        private readonly T _value;
+        private readonly List<TreeNode<T>> _children = new List<TreeNode<T>>();
 
-        public readonly string ID;
-        public TreeNode Parent { get; private set; }
-
-        public TreeNode(string id)
+        public TreeNode(T value)
         {
-            this.ID = id;
+            _value = value;
         }
 
-        public TreeNode GetChild(string id)
+        public TreeNode<T> this[int i]
         {
-            return this._children[id];
+            get { return _children[i]; }
         }
 
-        public void Add(TreeNode item)
-        {
-            if (item.Parent != null)
-            {
-                item.Parent._children.Remove(item.ID);
-            }
+        public TreeNode<T> Parent { get; private set; }
 
-            item.Parent = this;
-            this._children.Add(item.ID, item);
+        public T Value { get { return _value; } }
+
+        public ReadOnlyCollection<TreeNode<T>> Children
+        {
+            get { return _children.AsReadOnly(); }
         }
 
-        public IEnumerator<TreeNode> GetEnumerator()
+        public TreeNode<T> AddChild(T value)
         {
-            return this._children.Values.GetEnumerator();
+            var node = new TreeNode<T>(value) {Parent = this};
+            _children.Add(node);
+            return node;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public TreeNode<T>[] AddChildren(params T[] values)
         {
-            return this.GetEnumerator();
+            return values.Select(AddChild).ToArray();
         }
 
-        public int Count
+        public bool RemoveChild(TreeNode<T> node)
         {
-            get { return this._children.Count; }
+            return _children.Remove(node);
+        }
+
+        public void Traverse(Action<T> action)
+        {
+            action(Value);
+            foreach (var child in _children)
+                child.Traverse(action);
+        }
+
+        public IEnumerable<T> Flatten()
+        {
+            return new[] {Value}.Concat(_children.SelectMany(x => x.Flatten()));
         }
     }
 }
