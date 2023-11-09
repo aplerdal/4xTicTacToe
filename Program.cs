@@ -13,3 +13,4 @@ end.PrintBoard();
 */
 TreeNode<Board> root = new TreeNode<Board>(start);
 solver.PossibleMoves(root);      
+root.Traverse()
