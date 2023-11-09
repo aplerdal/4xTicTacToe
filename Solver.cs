@@ -4,14 +4,13 @@ using System.Collections.ObjectModel;
 namespace megaTicTacToeSolver
 {
     class Solver{
-        static Board start = new Board(new uint[4,4]{{0,1,0,1},{2,2,2,2},{2,2,2,2},{1,0,1,0}});
-        TreeNode<Board> root = new TreeNode<Board>(start);
         public void PossibleMoves(TreeNode<Board> board){
             for (int y = 0; y<board.Value.data.GetLength(0); y++){
                 for (int x = 0; x<board.Value.data.GetLength(1); x++){
-                    if (board.Value.data[x,y] == board.Value.move){
-                        if ((x+1)<board.Value.data.GetLength(0) & (board.Value.data[x+1,y]==(uint)Piece.None)) {
-                            Board tempBoard = board.Value;
+                    Console.WriteLine($"x:{x} y:{y}");
+                    if ((x+1)<board.Value.data.GetLength(0)) {
+                        if (board.Value.data[x+1,y]==(uint)Piece.None & (board.Value.data[x,y] == board.Value.move)) {
+                            Board tempBoard = new Board((uint[,])board.Value.data.Clone());
                             tempBoard.data[x,y] = (uint)Piece.None;
                             tempBoard.data[x+1,y] = tempBoard.move;
                             if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
@@ -19,30 +18,41 @@ namespace megaTicTacToeSolver
                             tempBoard.PrintBoard();
                             board.AddChild(tempBoard);
                         }
-                        if ((x-1)>0 & (board.Value.data[x-1,y]==(uint)Piece.None)) {
-                            Board tempBoard = board.Value;
+                    }
+                    if ((x-1)>-1) {
+                        if (board.Value.data[x-1,y]==(uint)Piece.None & (board.Value.data[x,y] == board.Value.move)){
+                            Board tempBoard = new Board((uint[,])board.Value.data.Clone());
                             tempBoard.data[x,y] = (uint)Piece.None;
                             tempBoard.data[x-1,y] = tempBoard.move;
-                            if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}                                Console.WriteLine("Found -x Move");
+                            tempBoard.PrintBoard();
                             board.AddChild(tempBoard);
                         }
-                        if ((y+1)<board.Value.data.GetLength(1) & (board.Value.data[x,y+1]==(uint)Piece.None)) {
-                            Board tempBoard = board.Value;
+                    }
+                    if ((y+1)<board.Value.data.GetLength(1)) {
+                        if (board.Value.data[x,y+1]==(uint)Piece.None  & (board.Value.data[x,y] == board.Value.move)) {
+                            Board tempBoard = new Board((uint[,])board.Value.data.Clone());
                             tempBoard.data[x,y] = (uint)Piece.None;
                             tempBoard.data[x,y+1] = tempBoard.move;
                             if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            Console.WriteLine("Found +y Move");
+                            tempBoard.PrintBoard();
                             board.AddChild(tempBoard);
                         }
-                        if ((y-1)>0 & (board.Value.data[x,y-1]==(uint)Piece.None)) {
-                            Board tempBoard = board.Value;
+                    }
+                    if ((y-1)>0) {
+                        if (board.Value.data[x,y-1]==(uint)Piece.None  & (board.Value.data[x,y] == board.Value.move)) {
+                            Board tempBoard = new Board((uint[,])board.Value.data.Clone());
                             tempBoard.data[x,y] = (uint)Piece.None;
-                            tempBoard.data[x,y+1] = tempBoard.move;
+                            tempBoard.data[x,y-1] = tempBoard.move;
                             if (tempBoard.move == 0) { tempBoard.move = 1; } else {tempBoard.move = 0;}
+                            Console.WriteLine("Found -y Move");
+                            tempBoard.PrintBoard();
                             board.AddChild(tempBoard);
                         }
                     }
                 }
-            }  
+            }
         }
         public void CheckWin(){
 

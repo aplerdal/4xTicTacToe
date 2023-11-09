@@ -9,10 +9,12 @@ namespace megaTicTacToeSolver
     class Board
     {
         private string[] output = new string[3] { "X", "O", " "};
-        public uint[,] data = new uint[4, 4];
-        public uint move = (uint)Move.X;
+        public uint[,] data;
+        public uint move;
         public Board()
         {
+            move = (uint)Move.X;
+            data = new uint[4, 4];
             Random random = new Random();
             for (int x = 0; x < 4; x++)
             {
@@ -27,6 +29,7 @@ namespace megaTicTacToeSolver
         public Board(uint[,] b)
         {
             data = b;
+            move = (uint)Move.X;
         }
         public void PrintBoard()
         {
