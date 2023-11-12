@@ -11,11 +11,14 @@ namespace megaTicTacToeSolver
         private string[] output = new string[3] { "X", "O", " "};
         public uint[,] data;
         public uint move;
-        public bool tested;
+        public bool traversed;
+        public uint won;
         public uint iteration;
         public Board()
         {
+            won = 3;
             iteration = 0;
+            traversed = false;
             move = (uint)Move.X;
             data = new uint[4, 4];
             Random random = new Random();
@@ -31,12 +34,16 @@ namespace megaTicTacToeSolver
         }
         public Board(uint[,] b)
         {
+            won = 3;
             iteration = 0;
+            traversed = false;
             data = b;
             move = (uint)Move.X;
         }
         public Board(uint[,] b, uint move, uint iteration)
         {
+            won = 3;
+            traversed = false;
             this.iteration = iteration;
             data = b;
             this.move = move;
@@ -63,12 +70,14 @@ namespace megaTicTacToeSolver
             {
                 for (int x = 0; x < 4; x++)
                 {
-                    Console.WriteLine($"piece:{board.data[x, y]}, x,y:{x},{y}");
                     temp |= board.data[x, y] << 30 - (x * 2 + y * 8);
                 }
             }
-            Console.WriteLine(temp);
             packedBoard = temp;
+        }
+        public StorageBoard(uint board)
+        {
+            packedBoard = board;
         }
         public Board toBoard()
         {
