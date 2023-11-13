@@ -24,7 +24,7 @@ while (true) {
         bool openChild = false;
         foreach (var child in CurrentPosition.Children)
         {
-            if (child.Value.traversed == false)
+            if (child.Value.traversed == false & !(solver.traversedBoards.Contains(child.Value.toStorageBoard().packedBoard)))
             {
                 solver.traversedBoards.AddLast(CurrentPosition.Value.toStorageBoard().packedBoard);
                 CurrentPosition = child;
@@ -37,6 +37,8 @@ while (true) {
         //CurrentPosition = CurrentPosition.Children[rnd.Next(CurrentPosition.Children.Count)];
         Console.WriteLine($"\n--  Move: {layer}, To Move: {((CurrentPosition.Value.move == 0) ? 'X' : 'O')} --");
         CurrentPosition.Value.PrintBoard();
+        Console.WriteLine(CurrentPosition.Value.toStorageBoard().packedBoard);
+        Console.WriteLine(solver.traversedBoards.Contains(CurrentPosition.Value.toStorageBoard().packedBoard));
         if (CurrentPosition.Value.won != 3 | layer > searchDepth) { CurrentPosition.Value.traversed = true; break; }
         solver.PossibleMoves(CurrentPosition,(uint)layer);
         foreach (var child in CurrentPosition.Children)
