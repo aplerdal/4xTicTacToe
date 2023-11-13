@@ -26,7 +26,7 @@ while (true) {
         {
             if (child.Value.traversed == false)
             {
-                solver.traversedBoards.AddLast((new StorageBoard(CurrentPosition.Value)).packedBoard);
+                solver.traversedBoards.AddLast(CurrentPosition.Value.toStorageBoard().packedBoard);
                 CurrentPosition = child;
                 layer++;
                 openChild = true;
