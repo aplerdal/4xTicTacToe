@@ -58,6 +58,12 @@ namespace megaTicTacToeSolver
             Console.WriteLine("---+---+---+---");
             Console.WriteLine($" {output[data[0, 3]]} | {output[data[1,3]]} | {output[data[2, 3]]} | {output[data[3, 3]]} ");
         }
+        public void MiniPrint(){
+            Console.WriteLine(output[data[0,0]] + output[data[1,0]] +output[data[2,0]] +output[data[3,0]]);
+            Console.WriteLine(output[data[0,1]] + output[data[1,1]] +output[data[2,1]] +output[data[3,1]]);
+            Console.WriteLine(output[data[0,2]] + output[data[1,2]] +output[data[2,2]] +output[data[3,2]]);
+            Console.WriteLine(output[data[0,3]] + output[data[1,3]] +output[data[2,3]] +output[data[3,3]]);
+        }
         public StorageBoard toStorageBoard(){
             return new StorageBoard(this);
         }
