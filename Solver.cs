@@ -16,8 +16,9 @@ namespace megaTicTacToeSolver
                             tempBoard.data[x+1,y] = tempBoard.move;
                             if (tempBoard.move == 0) { tempBoard.move = 1; } else { tempBoard.move = 0; }
                             if (CheckWin(tempBoard, x + 1, y)) { tempBoard.won = board.Value.move; }
-                            if (!traversedBoards.Contains((new StorageBoard(tempBoard)).packedBoard))
+                            if (!traversedBoards.Contains(tempBoard.toStorageBoard().packedBoard))
                             {
+                                //Console.WriteLine($"Found move from {x},{y} to {x+1},{y}");
                                 board.AddChild(tempBoard);
                             }
                         }
@@ -31,6 +32,7 @@ namespace megaTicTacToeSolver
                             if (CheckWin(tempBoard, x - 1, y)) { tempBoard.won = board.Value.move; }
                             if (!traversedBoards.Contains((new StorageBoard(tempBoard)).packedBoard))
                             {
+                                //Console.WriteLine($"Found move from {x},{y} to {x-1},{y}");
                                 board.AddChild(tempBoard);
                             }
                         }
@@ -44,6 +46,7 @@ namespace megaTicTacToeSolver
                             if (CheckWin(tempBoard, x, y + 1)) { tempBoard.won = board.Value.move; }
                             if (!traversedBoards.Contains((new StorageBoard(tempBoard)).packedBoard))
                             {
+                                //Console.WriteLine($"Found move from {x},{y} to {x},{y+1}");
                                 board.AddChild(tempBoard);
                             }
                         }
@@ -57,6 +60,7 @@ namespace megaTicTacToeSolver
                             if (CheckWin(tempBoard, x, y-1)) { tempBoard.won = board.Value.move; }
                             if (!traversedBoards.Contains((new StorageBoard(tempBoard)).packedBoard))
                             {
+                                //Console.WriteLine($"Found move from {x},{y} to {x},{y-1}");
                                 board.AddChild(tempBoard);
                             }
                         }
