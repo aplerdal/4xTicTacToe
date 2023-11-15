@@ -133,7 +133,7 @@ namespace megaTicTacToeSolver
             get { return _children[i]; }
         }
 
-        public TreeNode<T> Parent { get; private set; }
+        public TreeNode<T>? Parent { get; private set; }
 
         public T Value { get { return _value; } }
 

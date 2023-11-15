@@ -12,10 +12,12 @@ namespace megaTicTacToeSolver
         public uint[,] data;
         public uint move;
         public bool traversed;
+        public uint childwins;
         public uint won;
         public uint iteration;
         public Board()
         {
+            childwins = 0;
             won = 3;
             iteration = 0;
             traversed = false;
@@ -34,6 +36,7 @@ namespace megaTicTacToeSolver
         }
         public Board(uint[,] b)
         {
+            childwins = 0;
             won = 3;
             iteration = 0;
             traversed = false;
@@ -42,6 +45,7 @@ namespace megaTicTacToeSolver
         }
         public Board(uint[,] b, uint move, uint iteration)
         {
+            childwins = 0;
             won = 3;
             traversed = false;
             this.iteration = iteration;
